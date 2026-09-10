@@ -1,7 +1,9 @@
 package group.networkinventorytask.company.inventory.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "Shelf")
@@ -32,13 +34,13 @@ public class Shelf {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    //@OneToMany(mappedBy = "shelf")
-    //@JsonIgnore
-    //private List<Slot> slots;
+    @OneToMany(mappedBy = "shelf")
+    @JsonIgnore
+    private List<Slot> slots;
 
-   //public List<Slot> getSlots() {return slots;}
+    public List<Slot> getSlots() {return slots;}
 
-    //public void setSlots(List<Slot> slots) {this.slots = slots;}
+    public void setSlots(List<Slot> slots) {this.slots = slots;}
 
     public Long getId() {return id;}
 

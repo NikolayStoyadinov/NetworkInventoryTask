@@ -58,14 +58,12 @@ public class ShelfController {
     }
 
     //Delete /api/v1/shelves/{id}
-//    @DeleteMapping("/{id}")
-//    public void delete(
-//            @PathVariable Long id, @RequestParam(defaultValue = "false")
-//            boolean cascade
-//    ){
-//        shelfService.delete(id, cascade);
-//    }
-
-
+    @DeleteMapping("/{id}")
+    public void delete(
+            @PathVariable Long id, @RequestParam(defaultValue = "false")
+            boolean cascade
+    ){
+        shelfService.delete(id, cascade);
+    }
 
 }

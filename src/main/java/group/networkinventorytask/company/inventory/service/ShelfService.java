@@ -173,29 +173,29 @@ private final ShelfMapper shelfMapper;
     }
 
     //Delete
-//    public void delete(Long id, boolean cascade) {
-//
-//        Shelf shelf = shelfRepository.findById(id)
-//                .orElseThrow(() -> new RuntimeException(
-//                        "Shelf ID not found: " + id));
-//
-//        if (cascade) {
-//            shelf.getSlots().clear();
-//        }
-//
-//        shelfRepository.delete(shelf);
-//    }
+    public void delete(Long id, boolean cascade) {
+
+        Shelf shelf = shelfRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(
+                        "Shelf ID not found: " + id));
+
+        if (cascade) {
+            shelf.getSlots().clear();
+        }
+
+        shelfRepository.delete(shelf);
+    }
 
     //Get shelves of a router
-    public List<ShelfResponse> getShelvesByRouterId(Long router_id) {
+    public List<ShelfResponse> getShelvesByRouterId(Long routerId) {
 
-        if (!routerRepository.existsById(router_id)) {
+        if (!routerRepository.existsById(routerId)) {
             throw new RuntimeException(
-                    "Router not found: " + router_id);
+                    "Router not found: " + routerId);
         }
 
         List<Shelf> shelves =
-                shelfRepository.findByRouterId(router_id);
+                shelfRepository.findByRouterId(routerId);
 
         return shelves.stream()
                 .map(shelfMapper::toResponse)
