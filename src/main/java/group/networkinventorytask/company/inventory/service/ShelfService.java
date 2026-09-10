@@ -50,11 +50,11 @@ private final ShelfMapper shelfMapper;
         Shelf shelf = new Shelf();
 
         shelf.setRouter(router);
-        shelf.setId(shelf.getId());
-        shelf.setShelfNumber(shelf.getShelfNumber());
-        shelf.setSerialNumber(shelf.getSerialNumber());
-        shelf.setTotalSlots(shelf.getTotalSlots());
-        shelf.setStatus(shelf.getStatus());
+        shelf.setId(request.getId());
+        shelf.setShelfNumber(request.getShelfNumber());
+        shelf.setSerialNumber(request.getSerialNumber());
+        shelf.setTotalSlots(request.getTotalSlots());
+        shelf.setStatus(request.getStatus());
 
         LocalDateTime now = LocalDateTime.now();
 
