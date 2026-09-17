@@ -32,6 +32,13 @@ public class RouterController {
         return routerService.create(request);
     }
 
+    //Get router hierarchy
+    @GetMapping("/{id}/tree")
+    public RouterResponse getRouterTree(
+            @PathVariable Long id) {
+
+        return routerService.getRouterTree(id);
+    }
 
     // GET /api/v1/routers
     @GetMapping
@@ -49,7 +56,6 @@ public class RouterController {
 
         return routerService.getById(id);
     }
-
 
     // PUT /api/v1/routers/{id}
     @PutMapping("/{id}")
@@ -70,13 +76,9 @@ public class RouterController {
     }
 
     // DELETE /api/v1/routers/{id}
-   @DeleteMapping("/{id}")
-    public void delete(
-            @PathVariable Long id,
-            @RequestParam(defaultValue = "false")
-            boolean cascade) {
-
-        routerService.delete(id, cascade);
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        routerService.delete(id);
     }
 
     //Get Shelves of a router

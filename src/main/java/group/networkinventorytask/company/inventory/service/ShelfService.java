@@ -4,6 +4,7 @@ import group.networkinventorytask.company.inventory.config.ShelfMapper;
 import group.networkinventorytask.company.inventory.dto.Update.ShelfUpdateRequest;
 import group.networkinventorytask.company.inventory.dto.request.ShelfCreateRequest;
 import group.networkinventorytask.company.inventory.dto.response.ShelfResponse;
+import group.networkinventorytask.company.inventory.entity.Card;
 import group.networkinventorytask.company.inventory.entity.Router;
 import group.networkinventorytask.company.inventory.entity.Shelf;
 import group.networkinventorytask.company.inventory.repository.RouterRepository;
@@ -173,15 +174,12 @@ private final ShelfMapper shelfMapper;
     }
 
     //Delete
-    public void delete(Long id, boolean cascade) {
+    public void delete(Long id) {
 
         Shelf shelf = shelfRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException(
-                        "Shelf ID not found: " + id));
-
-        if (cascade) {
-            shelf.getSlots().clear();
-        }
+                .orElseThrow(() ->
+                        new RuntimeException(
+                                "Shelf not found: " + id));
 
         shelfRepository.delete(shelf);
     }

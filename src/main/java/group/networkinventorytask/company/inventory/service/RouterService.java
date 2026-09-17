@@ -1,13 +1,19 @@
 package group.networkinventorytask.company.inventory.service;
 
+import group.networkinventorytask.company.inventory.config.CardMapper;
 import group.networkinventorytask.company.inventory.config.RouterMapper;
+import group.networkinventorytask.company.inventory.config.ShelfMapper;
+import group.networkinventorytask.company.inventory.config.SlotMapper;
 import group.networkinventorytask.company.inventory.dto.request.RouterCreateRequest;
 import group.networkinventorytask.company.inventory.dto.Update.RouterUpdateRequest;
-import group.networkinventorytask.company.inventory.dto.response.RouterResponse;
+import group.networkinventorytask.company.inventory.dto.response.*;
+import group.networkinventorytask.company.inventory.entity.Card;
 import group.networkinventorytask.company.inventory.entity.NetworkSite;
 import group.networkinventorytask.company.inventory.entity.Router;
 import group.networkinventorytask.company.inventory.repository.NetworkSiteRepository;
 import group.networkinventorytask.company.inventory.repository.RouterRepository;
+import group.networkinventorytask.company.inventory.repository.ShelfRepository;
+import group.networkinventorytask.company.inventory.repository.SlotRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,15 +25,32 @@ public class RouterService {
 
     private final RouterRepository routerRepository;
     private final NetworkSiteRepository networkSiteRepository;
+    private final ShelfRepository shelfRepository;
+    private final SlotRepository slotRepository;
     private final RouterMapper routerMapper;
+    private final ShelfMapper shelfMapper;
+    private final SlotMapper slotMapper;
+    private final CardMapper cardMapper;
+
 
     public RouterService(
             RouterRepository routerRepository,
-            NetworkSiteRepository networkSiteRepository, RouterMapper routerMapper) {
+            NetworkSiteRepository networkSiteRepository,
+            ShelfRepository shelfRepository,
+            SlotRepository slotRepository,
+            RouterMapper routerMapper,
+            ShelfMapper shelfMapper,
+            SlotMapper slotMapper,
+            CardMapper cardMapper) {
 
         this.routerRepository = routerRepository;
         this.networkSiteRepository = networkSiteRepository;
+        this.shelfRepository = shelfRepository;
+        this.slotRepository = slotRepository;
         this.routerMapper = routerMapper;
+        this.shelfMapper = shelfMapper;
+        this.slotMapper = slotMapper;
+        this.cardMapper = cardMapper;
     }
 
     // CREATE
@@ -40,7 +63,9 @@ public class RouterService {
                                 "Network site not found: "
                                         + request.getSiteId()));
 
-        if (routerRepository.existsById(request.getId())) {
+        if (request.getId() != null &&
+                routerRepository.existsById(request.getId())) {
+
             throw new RuntimeException(
                     "Router ID already exists: " + request.getId());
         }
@@ -208,18 +233,16 @@ public class RouterService {
     }
 
     // DELETE
-    public void delete(Long id, boolean cascade) {
+    public void delete(Long id) {
 
         Router router = routerRepository.findById(id)
-           .orElseThrow(() -> new RuntimeException(
-                                "Router ID not found: " + id));
-
-        if (cascade) {
-            router.getShelves().clear();
-        }
+                .orElseThrow(() ->
+                        new RuntimeException(
+                                "Router not found: " + id));
 
         routerRepository.delete(router);
     }
+
 
     // GET ROUTERS AT SITE
     public List<RouterResponse> getRoutersBySiteId(Long siteId) {
@@ -235,6 +258,81 @@ public class RouterService {
         return routers.stream()
                 .map(routerMapper::toResponse)
                 .toList();
+    }
+
+    public RouterResponse getRouterTree(Long routerId) {
+
+        Router router = routerRepository.findById(routerId)
+                .orElseThrow(() ->
+                        new RuntimeException(
+                                "Router not found: " + routerId));
+
+        // Convert Router entity to RouterResponse
+        RouterResponse routerResponse =
+                routerMapper.toResponse(router);
+
+        // Find all shelves belonging to this router
+        List<ShelfResponse> shelfResponses =
+                shelfRepository.findByRouterId(routerId)
+                        .stream()
+                        .map(shelf -> {
+
+                            // Convert Shelf entity to ShelfResponse
+                            ShelfResponse shelfResponse =
+                                    shelfMapper.toResponse(shelf);
+
+                            // Find all slots belonging to this shelf
+                            List<SlotTreeResponse> slotResponses =
+                                    slotRepository
+                                            .findByShelfId(shelf.getId())
+                                            .stream()
+                                            .map(slot -> {
+
+                                                // Create the tree-specific Slot response
+                                                SlotTreeResponse slotTreeResponse =
+                                                        new SlotTreeResponse();
+
+                                                slotTreeResponse.setId(slot.getId());
+                                                slotTreeResponse.setSlotNumber(
+                                                        slot.getSlotNumber());
+                                                slotTreeResponse.setSlotType(
+                                                        slot.getSlotType());
+                                                slotTreeResponse.setStatus(
+                                                        slot.getStatus());
+                                                slotTreeResponse.setCreatedAt(
+                                                        slot.getCreatedAt());
+                                                slotTreeResponse.setUpdatedAt(
+                                                        slot.getUpdatedAt());
+
+                                                // Add Cards if this slot has any
+                                                if (slot.getCards() != null
+                                                        && !slot.getCards().isEmpty()) {
+
+                                                    List<CardResponse> cardResponses =
+                                                            slot.getCards()
+                                                                    .stream()
+                                                                    .map(cardMapper::toResponse)
+                                                                    .toList();
+
+                                                    slotTreeResponse.setCards(
+                                                            cardResponses);
+                                                }
+
+                                                return slotTreeResponse;
+                                            })
+                                            .toList();
+
+                            // Add slots to the shelf response
+                            shelfResponse.setSlots(slotResponses);
+
+                            return shelfResponse;
+                        })
+                        .toList();
+
+        // Add shelves to the router response
+        routerResponse.setShelves(shelfResponses);
+
+        return routerResponse;
     }
 
 }

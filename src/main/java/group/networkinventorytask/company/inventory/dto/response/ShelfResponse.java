@@ -1,6 +1,7 @@
 package group.networkinventorytask.company.inventory.dto.response;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ShelfResponse {
 
@@ -20,6 +21,15 @@ public class ShelfResponse {
 
     private LocalDateTime updatedAt;
 
+    private List<SlotTreeResponse> slots;
+
+    public List<SlotTreeResponse> getSlots() {
+        return slots;
+    }
+
+    public void setSlots(List<SlotTreeResponse> slots) {
+        this.slots = slots;
+    }
     public Long getId() {return id;}
 
     public void setId(Long id) {this.id = id;}

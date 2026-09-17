@@ -2,20 +2,27 @@ package group.networkinventorytask.company.inventory.controller;
 
 import group.networkinventorytask.company.inventory.dto.Update.ShelfUpdateRequest;
 import group.networkinventorytask.company.inventory.dto.request.ShelfCreateRequest;
+import group.networkinventorytask.company.inventory.dto.response.RouterResponse;
 import group.networkinventorytask.company.inventory.dto.response.ShelfResponse;
+import group.networkinventorytask.company.inventory.dto.response.SlotResponse;
 import group.networkinventorytask.company.inventory.service.ShelfService;
+import group.networkinventorytask.company.inventory.service.SlotService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/shelves")
 public class ShelfController {
 
     private final ShelfService shelfService;
+    private final SlotService slotService;
 
-    public ShelfController(ShelfService shelfService) {
+    public ShelfController(ShelfService shelfService, SlotService slotService) {
         this.shelfService = shelfService;
+        this.slotService = slotService;
     }
 
     //Post /api/v1/shelves
@@ -31,6 +38,12 @@ public class ShelfController {
             Pageable pageable){
 
         return  shelfService.getAll(status, pageable);
+    }
+
+    //Get slots of a shelf
+    @GetMapping("/{id}/slots")
+    public List<SlotResponse> getSlots(@PathVariable Long id) {
+        return slotService.getSlotsByShelfId(id);
     }
 
     //Get /api/v1/shelves/{id}
@@ -59,11 +72,8 @@ public class ShelfController {
 
     //Delete /api/v1/shelves/{id}
     @DeleteMapping("/{id}")
-    public void delete(
-            @PathVariable Long id, @RequestParam(defaultValue = "false")
-            boolean cascade
-    ){
-        shelfService.delete(id, cascade);
+    public void delete(@PathVariable Long id) {
+        shelfService.delete(id);
     }
 
 }

@@ -4,28 +4,35 @@ import group.networkinventorytask.company.inventory.config.SlotMapper;
 import group.networkinventorytask.company.inventory.dto.Update.SlotUpdateRequest;
 import group.networkinventorytask.company.inventory.dto.request.SlotCreateRequest;
 import group.networkinventorytask.company.inventory.dto.response.SlotResponse;
+import group.networkinventorytask.company.inventory.entity.Card;
 import group.networkinventorytask.company.inventory.entity.Shelf;
 import group.networkinventorytask.company.inventory.entity.Slot;
+import group.networkinventorytask.company.inventory.repository.CardRepository;
 import group.networkinventorytask.company.inventory.repository.ShelfRepository;
 import group.networkinventorytask.company.inventory.repository.SlotRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class SlotService {
 
+    private final CardRepository cardRepository;
     private final SlotRepository slotRepository;
     private final ShelfRepository shelfRepository;
     private final SlotMapper slotMapper;
 
-    public SlotService(SlotRepository slotRepository, ShelfRepository shelfRepository, SlotMapper slotMapper) {
+    public SlotService(SlotRepository slotRepository, ShelfRepository shelfRepository, SlotMapper slotMapper,
+                       CardRepository cardRepository) {
         this.slotRepository = slotRepository;
         this.shelfRepository = shelfRepository;
         this.slotMapper = slotMapper;
+        this.cardRepository = cardRepository;
     }
 
     //Create
@@ -167,18 +174,15 @@ public class SlotService {
     }
 
     //Delete
-//    public void delete(Long id, boolean cascade) {
-//
-//        Slot slot = slotRepository.findById(id)
-//                .orElseThrow(() -> new RuntimeException(
-//                        "Slot ID not found: " + id));
-//
-//        if (cascade) {
-//            slot.getCards().clear();
-//        }
-//
-//        slotRepository.delete(slot);
-//    }
+    public void delete(Long id) {
+
+        Slot slot = slotRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException(
+                                "Slot not found: " + id));
+
+        slotRepository.delete(slot);
+    }
 
     //Get slots of a shelf
     public List<SlotResponse> getSlotsByShelfId(Long shelfId) {
@@ -194,5 +198,71 @@ public class SlotService {
         return slots.stream()
                 .map(slotMapper::toResponse)
                 .toList();
+    }
+
+    //Insert card into slot
+    @Transactional
+    public SlotResponse installCard(Long slotId, Long cardId) {
+
+        Slot slot = slotRepository.findById(slotId)
+                .orElseThrow(() -> new RuntimeException(
+                        "Slot ID not found: " + slotId));
+
+        Card card = cardRepository.findById(cardId)
+                .orElseThrow(() -> new RuntimeException(
+                        "Card ID not found: " + cardId));
+
+        if (card.getSlot() != null) {
+            throw new RuntimeException(
+                    "Card is already installed in another slot.");
+        }
+
+        if (slot.getCards() != null && !slot.getCards().isEmpty()) {
+            throw new RuntimeException(
+                    "Slot already contains a card.");
+        }
+
+        card.setSlot(slot);
+
+        if (slot.getCards() == null) {
+            slot.setCards(new ArrayList<>());
+        }
+
+        slot.getCards().add(card);
+
+        cardRepository.save(card);
+
+        return slotMapper.toResponse(slot);
+    }
+
+    @Transactional
+    public SlotResponse removeCard(Long slotId, Long cardId) {
+
+        Slot slot = slotRepository.findById(slotId)
+                .orElseThrow(() -> new RuntimeException(
+                        "Slot ID not found: " + slotId));
+
+        Card card = cardRepository.findById(cardId)
+                .orElseThrow(() -> new RuntimeException(
+                        "Card ID not found: " + cardId));
+
+        if (card.getSlot() == null
+                || !card.getSlot().getId().equals(slotId)) {
+
+            throw new RuntimeException(
+                    "Card is not installed in this slot.");
+        }
+
+        card.setSlot(null);
+
+        if (slot.getCards() != null) {
+            slot.getCards().removeIf(
+                    existingCard ->
+                            existingCard.getId().equals(cardId));
+        }
+
+        cardRepository.save(card);
+
+        return slotMapper.toResponse(slot);
     }
 }

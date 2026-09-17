@@ -2,20 +2,27 @@ package group.networkinventorytask.company.inventory.controller;
 
 import group.networkinventorytask.company.inventory.dto.Update.SlotUpdateRequest;
 import group.networkinventorytask.company.inventory.dto.request.SlotCreateRequest;
+import group.networkinventorytask.company.inventory.dto.response.CardResponse;
+import group.networkinventorytask.company.inventory.dto.response.RouterResponse;
 import group.networkinventorytask.company.inventory.dto.response.SlotResponse;
+import group.networkinventorytask.company.inventory.service.CardService;
 import group.networkinventorytask.company.inventory.service.SlotService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/slots")
 public class SlotController {
 
     private final SlotService slotService;
+    private final CardService cardService;
 
-    public SlotController(SlotService slotService) {
+    public SlotController(SlotService slotService, CardService cardService) {
         this.slotService = slotService;
+        this.cardService = cardService;
     }
 
     //Post /api/v1/slots
@@ -41,6 +48,12 @@ public class SlotController {
         return slotService.getById(id);
     }
 
+    //Get card of a slot
+    @GetMapping("/{id}/card")
+    public List<CardResponse> getCards(@PathVariable Long id) {
+        return cardService.getCardBySlotId(id);
+    }
+
     //Put /api/v1/slots/{id}
     @PutMapping("/{id}")
     public SlotResponse update(
@@ -58,12 +71,26 @@ public class SlotController {
     }
 
     //Delete /api/v1/slots/{id}
-//    @DeleteMapping("/{id}")
-//    public void delete(
-//            @PathVariable Long id, @RequestParam(defaultValue = "false")
-//            boolean cascade
-//    ){
-//        slotService.delete(id, cascade);
-//    }
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        slotService.delete(id);
+    }
 
+    //Post /api/v1/slots/{id}/card?cardId={id}
+    @PostMapping("/{id}/card")
+    public SlotResponse installCard(
+            @PathVariable Long id,
+            @RequestParam Long cardId) {
+
+        return slotService.installCard(id, cardId);
+    }
+
+    //Delete /api/v1/slots/{id}/card?cardId={id}
+    @DeleteMapping("/{id}/card")
+    public SlotResponse removeCard(
+            @PathVariable Long id,
+            @RequestParam Long cardId) {
+
+        return slotService.removeCard(id, cardId);
+    }
 }

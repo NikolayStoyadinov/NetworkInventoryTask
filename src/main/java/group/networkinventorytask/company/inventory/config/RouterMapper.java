@@ -1,8 +1,11 @@
 package group.networkinventorytask.company.inventory.config;
 
 import group.networkinventorytask.company.inventory.dto.response.RouterResponse;
+import group.networkinventorytask.company.inventory.dto.response.ShelfResponse;
 import group.networkinventorytask.company.inventory.entity.Router;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class RouterMapper {

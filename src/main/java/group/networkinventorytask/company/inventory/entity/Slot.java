@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -32,13 +33,13 @@ public class Slot {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-//    @OneToMany(mappedBy = "slot")
-//    @JsonIgnore
-//    private List<Card> cards;
-//
-//    public List<Card> getCards() {return cards;}
-//
-//    public void setCards(List<Card> cards) {this.cards = cards;}
+    @OneToMany(mappedBy = "slot")
+    @JsonIgnore
+    private List<Card> cards = new ArrayList<>();
+
+    public List<Card> getCards() {return cards;}
+
+    public void setCards(List<Card> cards) {this.cards = cards;}
 
     public Long getId() {return id;}
 

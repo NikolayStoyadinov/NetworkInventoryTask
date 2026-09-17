@@ -1,6 +1,7 @@
 package group.networkinventorytask.company.inventory.dto.response;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class RouterResponse {
     private Long id;
@@ -14,6 +15,16 @@ public class RouterResponse {
     private String status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    private List<ShelfResponse> shelves;
+
+    public List<ShelfResponse> getShelves() {
+        return shelves;
+    }
+
+    public void setShelves(List<ShelfResponse> shelves) {
+        this.shelves = shelves;
+    }
 
     public Long getId() {return id;}
 
