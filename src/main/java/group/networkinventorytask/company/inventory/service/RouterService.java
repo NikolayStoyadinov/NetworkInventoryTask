@@ -260,6 +260,7 @@ public class RouterService {
                 .toList();
     }
 
+    // Get Router tree hierarchy
     public RouterResponse getRouterTree(Long routerId) {
 
         Router router = routerRepository.findById(routerId)
@@ -272,14 +273,14 @@ public class RouterService {
                 routerMapper.toResponse(router);
 
         // Find all shelves belonging to this router
-        List<ShelfResponse> shelfResponses =
+        List<ShelfTreeResponse> shelfResponses =
                 shelfRepository.findByRouterId(routerId)
                         .stream()
                         .map(shelf -> {
 
-                            // Convert Shelf entity to ShelfResponse
-                            ShelfResponse shelfResponse =
-                                    shelfMapper.toResponse(shelf);
+                            // Convert Shelf entity to ShelfTreeResponse
+                            ShelfTreeResponse shelfResponse =
+                                    shelfMapper.toTreeResponse(shelf);
 
                             // Find all slots belonging to this shelf
                             List<SlotTreeResponse> slotResponses =
@@ -293,14 +294,19 @@ public class RouterService {
                                                         new SlotTreeResponse();
 
                                                 slotTreeResponse.setId(slot.getId());
+
                                                 slotTreeResponse.setSlotNumber(
                                                         slot.getSlotNumber());
+
                                                 slotTreeResponse.setSlotType(
                                                         slot.getSlotType());
+
                                                 slotTreeResponse.setStatus(
                                                         slot.getStatus());
+
                                                 slotTreeResponse.setCreatedAt(
                                                         slot.getCreatedAt());
+
                                                 slotTreeResponse.setUpdatedAt(
                                                         slot.getUpdatedAt());
 
@@ -322,7 +328,7 @@ public class RouterService {
                                             })
                                             .toList();
 
-                            // Add slots to the shelf response
+                            // Add slots to the shelf tree response
                             shelfResponse.setSlots(slotResponses);
 
                             return shelfResponse;

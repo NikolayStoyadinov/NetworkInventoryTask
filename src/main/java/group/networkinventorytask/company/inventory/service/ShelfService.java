@@ -1,5 +1,6 @@
 package group.networkinventorytask.company.inventory.service;
 
+import group.networkinventorytask.company.inventory.Exception.ShelfNotFound;
 import group.networkinventorytask.company.inventory.config.ShelfMapper;
 import group.networkinventorytask.company.inventory.dto.Update.ShelfUpdateRequest;
 import group.networkinventorytask.company.inventory.dto.request.ShelfCreateRequest;
@@ -95,8 +96,8 @@ private final ShelfMapper shelfMapper;
 
         Shelf shelf = shelfRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException(
-                                "Router not found: " + id));
+                        new ShelfNotFound(
+                                "Shelf not found: " + id));
 
         return shelfMapper.toResponse(shelf);
     }

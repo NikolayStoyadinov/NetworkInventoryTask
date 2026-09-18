@@ -9,6 +9,7 @@ import group.networkinventorytask.company.inventory.service.ShelfService;
 import group.networkinventorytask.company.inventory.service.SlotService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class ShelfController {
     }
 
     //Post /api/v1/shelves
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public ShelfResponse create(@RequestBody ShelfCreateRequest request){
         return shelfService.create(request);
@@ -71,6 +73,7 @@ public class ShelfController {
     }
 
     //Delete /api/v1/shelves/{id}
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         shelfService.delete(id);
