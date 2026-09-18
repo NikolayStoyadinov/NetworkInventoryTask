@@ -1,5 +1,7 @@
 package group.networkinventorytask.company.inventory.service;
 
+import group.networkinventorytask.company.inventory.Exception.SiteException;
+import group.networkinventorytask.company.inventory.Exception.SiteHasChildrenException;
 import group.networkinventorytask.company.inventory.config.SiteMapper;
 import group.networkinventorytask.company.inventory.dto.request.SiteCreateRequest;
 import group.networkinventorytask.company.inventory.dto.Update.SiteUpdateRequest;
@@ -26,8 +28,12 @@ public class NetworkSiteService {
     // Create
     public SiteResponse create(SiteCreateRequest request) {
 
-        if (networkSiteRepository.existsBySiteCode(request.getSiteCode())) {
-            throw new RuntimeException("Site code exists already!");
+        if (networkSiteRepository.existsBySiteCode(
+                request.getSiteCode())) {
+
+            throw new SiteException(
+                    "Site code already exists: "
+                            + request.getSiteCode());
         }
 
         NetworkSite site = new NetworkSite();
@@ -166,6 +172,11 @@ public class NetworkSiteService {
                 .orElseThrow(() ->
                         new RuntimeException(
                                 "Network site not found: " + id));
+
+        if (!cascade && !site.getRouters().isEmpty()) {
+            throw new SiteHasChildrenException(
+                    "Cannot delete site because it has routers");
+        }
 
         if (cascade) {
             site.getRouters().clear();
