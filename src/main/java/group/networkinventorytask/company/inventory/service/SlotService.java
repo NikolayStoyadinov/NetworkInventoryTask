@@ -1,5 +1,7 @@
 package group.networkinventorytask.company.inventory.service;
 
+import group.networkinventorytask.company.inventory.Exception.CardNotInSlot;
+import group.networkinventorytask.company.inventory.Exception.SlotOccupiedException;
 import group.networkinventorytask.company.inventory.config.SlotMapper;
 import group.networkinventorytask.company.inventory.dto.Update.SlotUpdateRequest;
 import group.networkinventorytask.company.inventory.dto.request.SlotCreateRequest;
@@ -41,7 +43,7 @@ public class SlotService {
                 .findById(request.getShelfId())
                 .orElseThrow(() ->
                         new RuntimeException(
-                                "Shelf not found"
+                                "Shelf not found "
                                         + request.getShelfId()));
 
         if (slotRepository.existsById(request.getId())){
@@ -51,7 +53,7 @@ public class SlotService {
 
         if(slotRepository.existsBySlotNumber(request.getSlotNumber())){
             throw new RuntimeException(
-                    "Slot number already exists");
+                    "Slot number already exists: " + request.getSlotNumber());
         }
 
         Slot slot = new Slot();
@@ -218,7 +220,7 @@ public class SlotService {
         }
 
         if (slot.getCards() != null && !slot.getCards().isEmpty()) {
-            throw new RuntimeException(
+            throw new SlotOccupiedException(
                     "Slot already contains a card.");
         }
 
@@ -249,7 +251,7 @@ public class SlotService {
         if (card.getSlot() == null
                 || !card.getSlot().getId().equals(slotId)) {
 
-            throw new RuntimeException(
+            throw new CardNotInSlot(
                     "Card is not installed in this slot.");
         }
 

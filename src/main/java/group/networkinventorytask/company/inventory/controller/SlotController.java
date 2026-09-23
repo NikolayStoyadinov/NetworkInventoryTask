@@ -9,6 +9,7 @@ import group.networkinventorytask.company.inventory.service.CardService;
 import group.networkinventorytask.company.inventory.service.SlotService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class SlotController {
     }
 
     //Post /api/v1/slots
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public SlotResponse create(@RequestBody SlotCreateRequest request){
         return slotService.create(request);
@@ -72,11 +74,13 @@ public class SlotController {
 
     //Delete /api/v1/slots/{id}
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         slotService.delete(id);
     }
 
     //Post /api/v1/slots/{id}/card?cardId={id}
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{id}/card")
     public SlotResponse installCard(
             @PathVariable Long id,
@@ -87,6 +91,7 @@ public class SlotController {
 
     //Delete /api/v1/slots/{id}/card?cardId={id}
     @DeleteMapping("/{id}/card")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public SlotResponse removeCard(
             @PathVariable Long id,
             @RequestParam Long cardId) {

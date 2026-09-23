@@ -8,6 +8,8 @@ import group.networkinventorytask.company.inventory.service.RouterService;
 import group.networkinventorytask.company.inventory.service.ShelfService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +27,7 @@ public class RouterController {
     }
 
     // POST /api/v1/routers
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public RouterResponse create(
             @RequestBody RouterCreateRequest request) {
@@ -76,15 +79,25 @@ public class RouterController {
     }
 
     // DELETE /api/v1/routers/{id}
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         routerService.delete(id);
     }
 
-    //Get Shelves of a router
+// Get Shelves of a router
     @GetMapping("/{id}/shelves")
-    public List<ShelfResponse> getShelves(@PathVariable Long id) {
-        return shelfService.getShelvesByRouterId(id);
+    public ResponseEntity<List<ShelfResponse>> getShelves(
+            @PathVariable Long id) {
+
+        List<ShelfResponse> shelves =
+                shelfService.getShelvesByRouterId(id);
+
+        if (shelves.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(shelves);
     }
 }
 
