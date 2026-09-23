@@ -43,7 +43,7 @@ public class SlotService {
                 .findById(request.getShelfId())
                 .orElseThrow(() ->
                         new RuntimeException(
-                                "Shelf not found"
+                                "Shelf not found "
                                         + request.getShelfId()));
 
         if (slotRepository.existsById(request.getId())){
@@ -53,7 +53,7 @@ public class SlotService {
 
         if(slotRepository.existsBySlotNumber(request.getSlotNumber())){
             throw new RuntimeException(
-                    "Slot number already exists");
+                    "Slot number already exists: " + request.getSlotNumber());
         }
 
         Slot slot = new Slot();

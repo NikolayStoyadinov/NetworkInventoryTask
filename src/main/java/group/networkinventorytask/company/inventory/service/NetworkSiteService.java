@@ -57,6 +57,7 @@ public class NetworkSiteService {
 
         return siteMapper.toResponse(savedSite);
     }
+
     // Get all
     public Page<SiteResponse> getAll(String status,
                                      String city,

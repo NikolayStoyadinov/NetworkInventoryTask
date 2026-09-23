@@ -11,6 +11,7 @@ import java.util.List;
 public interface RouterRepository extends JpaRepository<Router, Long>, JpaSpecificationExecutor<Router> {
     boolean existsByHostname(String hostname);
     boolean existsBySerialNumber(String serialNumber);
+    boolean existsByNetworkSiteId(Long siteId);
 
     List<Router> findByNetworkSiteId(Long siteId);
 }
