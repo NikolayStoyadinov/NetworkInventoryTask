@@ -7,7 +7,6 @@ import group.networkinventorytask.company.inventory.entity.NetworkSite;
 import group.networkinventorytask.company.inventory.config.SiteMapper;
 import group.networkinventorytask.company.inventory.entity.Router;
 import group.networkinventorytask.company.inventory.repository.NetworkSiteRepository;
-import group.networkinventorytask.company.inventory.repository.RouterRepository;
 import group.networkinventorytask.company.inventory.dto.response.SiteResponse;
 
 import group.networkinventorytask.company.inventory.service.NetworkSiteService;

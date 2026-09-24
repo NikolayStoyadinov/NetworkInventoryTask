@@ -3,7 +3,6 @@ package group.networkinventorytask.company.inventory.controller;
 import group.networkinventorytask.company.inventory.dto.Update.SlotUpdateRequest;
 import group.networkinventorytask.company.inventory.dto.request.SlotCreateRequest;
 import group.networkinventorytask.company.inventory.dto.response.CardResponse;
-import group.networkinventorytask.company.inventory.dto.response.RouterResponse;
 import group.networkinventorytask.company.inventory.dto.response.SlotResponse;
 import group.networkinventorytask.company.inventory.service.CardService;
 import group.networkinventorytask.company.inventory.service.SlotService;

@@ -47,7 +47,7 @@ public class SlotServiceTest {
 
     //Create
     @Test
-    void CreateSlot(){
+    void CreateSlot() {
 
         SlotCreateRequest request = new SlotCreateRequest();
         request.setId(1L);
@@ -82,7 +82,7 @@ public class SlotServiceTest {
         SlotResponse result = slotService.create(request);
 
         assertNotNull(result);
-        assertEquals(1L,result.getId());
+        assertEquals(1L, result.getId());
         assertEquals("111", result.getSlotNumber());
         assertEquals("1B", result.getSlotType());
         assertEquals("FREE", result.getStatus());
@@ -171,9 +171,7 @@ public class SlotServiceTest {
 
         assertNotNull(result);
         assertEquals(2, result.getTotalElements());
-
         assertEquals("111", result.getContent().get(0).getSlotNumber());
-
         assertEquals("222", result.getContent().get(1).getSlotNumber());
 
         verify(slotRepository).findAll(pageable);
@@ -208,7 +206,7 @@ public class SlotServiceTest {
 
     //GetById
     @Test
-    void GetById(){
+    void GetById() {
         Long slotId = 1L;
 
         Slot slot = new Slot();
@@ -332,7 +330,7 @@ public class SlotServiceTest {
 
     //Patch
     @Test
-    void PatchUpdate(){
+    void PatchUpdate() {
 
         Long slotId = 1L;
         Shelf shelf = new Shelf();
@@ -384,7 +382,7 @@ public class SlotServiceTest {
 
     //Delete
     @Test
-    void DeleteSlot(){
+    void DeleteSlot() {
 
         Long slotId = 1L;
 
@@ -424,7 +422,7 @@ public class SlotServiceTest {
         verify(slotRepository, never()).delete(any(Slot.class));
     }
 
-
+    //Card - Slot Interactions
     @Test
     void InstallCardIntoSlot() {
 
@@ -662,4 +660,75 @@ public class SlotServiceTest {
         verify(cardRepository, never()).save(any());
 
     }
+
+    //Get slots of a shelf
+    @Test
+    void getSlotsByShelfId() {
+
+        Long shelfId = 1L;
+
+        Slot slot1 = new Slot();
+        slot1.setId(1L);
+
+        Slot slot2 = new Slot();
+        slot2.setId(2L);
+
+        List<Slot> slots = List.of(slot1, slot2);
+
+        SlotResponse response1 = new SlotResponse();
+        response1.setId(1L);
+
+        SlotResponse response2 = new SlotResponse();
+        response2.setId(2L);
+
+        when(shelfRepository.existsById(shelfId))
+                .thenReturn(true);
+
+        when(slotRepository.findByShelfId(shelfId))
+                .thenReturn(slots);
+
+        when(slotMapper.toResponse(slot1))
+                .thenReturn(response1);
+
+        when(slotMapper.toResponse(slot2))
+                .thenReturn(response2);
+
+        List<SlotResponse> result =
+                slotService.getSlotsByShelfId(shelfId);
+
+        assertEquals(2, result.size());
+        assertEquals(1L, result.get(0).getId());
+        assertEquals(2L, result.get(1).getId());
+
+        verify(shelfRepository).existsById(shelfId);
+        verify(slotRepository).findByShelfId(shelfId);
+        verify(slotMapper).toResponse(slot1);
+        verify(slotMapper).toResponse(slot2);
+    }
+
+    //Get slots of a shelf - negative
+    @Test
+    void getSlotsByShelfId_ShelfNotFound() {
+
+        Long shelfId = 999L;
+
+        when(shelfRepository.existsById(shelfId))
+                .thenReturn(false);
+
+        RuntimeException exception = assertThrows(
+                RuntimeException.class,
+                () -> slotService.getSlotsByShelfId(shelfId)
+        );
+
+        assertEquals(
+                "Shelf not found: " + shelfId,
+                exception.getMessage()
+        );
+
+        verify(shelfRepository).existsById(shelfId);
+
+        verify(slotRepository, never())
+                .findByShelfId(shelfId);
+    }
 }
+

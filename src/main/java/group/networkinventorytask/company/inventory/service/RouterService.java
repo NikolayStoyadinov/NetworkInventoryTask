@@ -3,11 +3,9 @@ package group.networkinventorytask.company.inventory.service;
 import group.networkinventorytask.company.inventory.config.CardMapper;
 import group.networkinventorytask.company.inventory.config.RouterMapper;
 import group.networkinventorytask.company.inventory.config.ShelfMapper;
-import group.networkinventorytask.company.inventory.config.SlotMapper;
 import group.networkinventorytask.company.inventory.dto.request.RouterCreateRequest;
 import group.networkinventorytask.company.inventory.dto.Update.RouterUpdateRequest;
 import group.networkinventorytask.company.inventory.dto.response.*;
-import group.networkinventorytask.company.inventory.entity.Card;
 import group.networkinventorytask.company.inventory.entity.NetworkSite;
 import group.networkinventorytask.company.inventory.entity.Router;
 import group.networkinventorytask.company.inventory.repository.NetworkSiteRepository;
@@ -29,7 +27,6 @@ public class RouterService {
     private final SlotRepository slotRepository;
     private final RouterMapper routerMapper;
     private final ShelfMapper shelfMapper;
-    private final SlotMapper slotMapper;
     private final CardMapper cardMapper;
 
 
@@ -40,7 +37,6 @@ public class RouterService {
             SlotRepository slotRepository,
             RouterMapper routerMapper,
             ShelfMapper shelfMapper,
-            SlotMapper slotMapper,
             CardMapper cardMapper) {
 
         this.routerRepository = routerRepository;
@@ -49,7 +45,6 @@ public class RouterService {
         this.slotRepository = slotRepository;
         this.routerMapper = routerMapper;
         this.shelfMapper = shelfMapper;
-        this.slotMapper = slotMapper;
         this.cardMapper = cardMapper;
     }
 

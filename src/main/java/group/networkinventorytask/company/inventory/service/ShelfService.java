@@ -5,7 +5,6 @@ import group.networkinventorytask.company.inventory.config.ShelfMapper;
 import group.networkinventorytask.company.inventory.dto.Update.ShelfUpdateRequest;
 import group.networkinventorytask.company.inventory.dto.request.ShelfCreateRequest;
 import group.networkinventorytask.company.inventory.dto.response.ShelfResponse;
-import group.networkinventorytask.company.inventory.entity.Card;
 import group.networkinventorytask.company.inventory.entity.Router;
 import group.networkinventorytask.company.inventory.entity.Shelf;
 import group.networkinventorytask.company.inventory.repository.RouterRepository;

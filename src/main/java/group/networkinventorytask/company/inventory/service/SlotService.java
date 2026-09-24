@@ -1,5 +1,6 @@
 package group.networkinventorytask.company.inventory.service;
 
+import group.networkinventorytask.company.inventory.Exception.CardInstalledElsewhere;
 import group.networkinventorytask.company.inventory.Exception.CardNotInSlot;
 import group.networkinventorytask.company.inventory.Exception.SlotOccupiedException;
 import group.networkinventorytask.company.inventory.config.SlotMapper;
@@ -215,7 +216,7 @@ public class SlotService {
                         "Card ID not found: " + cardId));
 
         if (card.getSlot() != null) {
-            throw new RuntimeException(
+            throw new CardInstalledElsewhere(
                     "Card is already installed in another slot.");
         }
 

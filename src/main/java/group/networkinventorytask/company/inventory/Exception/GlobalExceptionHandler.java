@@ -1,7 +1,6 @@
 package group.networkinventorytask.company.inventory.Exception;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -22,6 +21,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(SlotOccupiedException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public String handleSlotOccupied(SlotOccupiedException ex) {
+        return ex.getMessage();
+    }
+
+    @ExceptionHandler(CardInstalledElsewhere.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleCardInstalledElsewhere(CardInstalledElsewhere ex) {
         return ex.getMessage();
     }
 

@@ -1,7 +1,6 @@
 package group.networkinventorytask.company.inventory.service;
 
 import group.networkinventorytask.company.inventory.Exception.CardNotFound;
-import group.networkinventorytask.company.inventory.Exception.CardNotInSlot;
 import group.networkinventorytask.company.inventory.config.CardMapper;
 import group.networkinventorytask.company.inventory.dto.Update.CardUpdateRequest;
 import group.networkinventorytask.company.inventory.dto.request.CardCreateRequest;
