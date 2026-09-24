@@ -3,11 +3,9 @@ package group.networkinventorytask.company.inventory.service;
 import group.networkinventorytask.company.inventory.config.CardMapper;
 import group.networkinventorytask.company.inventory.config.RouterMapper;
 import group.networkinventorytask.company.inventory.config.ShelfMapper;
-import group.networkinventorytask.company.inventory.config.SlotMapper;
 import group.networkinventorytask.company.inventory.dto.request.RouterCreateRequest;
 import group.networkinventorytask.company.inventory.dto.Update.RouterUpdateRequest;
 import group.networkinventorytask.company.inventory.dto.response.*;
-import group.networkinventorytask.company.inventory.entity.Card;
 import group.networkinventorytask.company.inventory.entity.NetworkSite;
 import group.networkinventorytask.company.inventory.entity.Router;
 import group.networkinventorytask.company.inventory.repository.NetworkSiteRepository;
@@ -29,7 +27,6 @@ public class RouterService {
     private final SlotRepository slotRepository;
     private final RouterMapper routerMapper;
     private final ShelfMapper shelfMapper;
-    private final SlotMapper slotMapper;
     private final CardMapper cardMapper;
 
 
@@ -40,7 +37,6 @@ public class RouterService {
             SlotRepository slotRepository,
             RouterMapper routerMapper,
             ShelfMapper shelfMapper,
-            SlotMapper slotMapper,
             CardMapper cardMapper) {
 
         this.routerRepository = routerRepository;
@@ -49,7 +45,6 @@ public class RouterService {
         this.slotRepository = slotRepository;
         this.routerMapper = routerMapper;
         this.shelfMapper = shelfMapper;
-        this.slotMapper = slotMapper;
         this.cardMapper = cardMapper;
     }
 
@@ -260,6 +255,7 @@ public class RouterService {
                 .toList();
     }
 
+    // Get Router tree hierarchy
     public RouterResponse getRouterTree(Long routerId) {
 
         Router router = routerRepository.findById(routerId)
@@ -272,14 +268,14 @@ public class RouterService {
                 routerMapper.toResponse(router);
 
         // Find all shelves belonging to this router
-        List<ShelfResponse> shelfResponses =
+        List<ShelfTreeResponse> shelfResponses =
                 shelfRepository.findByRouterId(routerId)
                         .stream()
                         .map(shelf -> {
 
-                            // Convert Shelf entity to ShelfResponse
-                            ShelfResponse shelfResponse =
-                                    shelfMapper.toResponse(shelf);
+                            // Convert Shelf entity to ShelfTreeResponse
+                            ShelfTreeResponse shelfResponse =
+                                    shelfMapper.toTreeResponse(shelf);
 
                             // Find all slots belonging to this shelf
                             List<SlotTreeResponse> slotResponses =
@@ -293,14 +289,19 @@ public class RouterService {
                                                         new SlotTreeResponse();
 
                                                 slotTreeResponse.setId(slot.getId());
+
                                                 slotTreeResponse.setSlotNumber(
                                                         slot.getSlotNumber());
+
                                                 slotTreeResponse.setSlotType(
                                                         slot.getSlotType());
+
                                                 slotTreeResponse.setStatus(
                                                         slot.getStatus());
+
                                                 slotTreeResponse.setCreatedAt(
                                                         slot.getCreatedAt());
+
                                                 slotTreeResponse.setUpdatedAt(
                                                         slot.getUpdatedAt());
 
@@ -322,7 +323,7 @@ public class RouterService {
                                             })
                                             .toList();
 
-                            // Add slots to the shelf response
+                            // Add slots to the shelf tree response
                             shelfResponse.setSlots(slotResponses);
 
                             return shelfResponse;

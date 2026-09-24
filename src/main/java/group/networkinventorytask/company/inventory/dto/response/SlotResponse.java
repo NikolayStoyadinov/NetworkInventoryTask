@@ -1,10 +1,6 @@
 package group.networkinventorytask.company.inventory.dto.response;
 
-import group.networkinventorytask.company.inventory.entity.Card;
-
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SlotResponse {
 

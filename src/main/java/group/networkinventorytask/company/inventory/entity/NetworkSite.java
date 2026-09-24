@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -43,7 +44,7 @@ import java.util.List;
 
         @OneToMany(mappedBy = "networkSite")
         @JsonIgnore
-         private List<Router> routers;
+         private List<Router> routers = new ArrayList<>();
 
         public List<Router> getRouters() {
             return routers;
