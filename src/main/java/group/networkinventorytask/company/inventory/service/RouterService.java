@@ -1,13 +1,14 @@
 package group.networkinventorytask.company.inventory.service;
 
-import group.networkinventorytask.company.inventory.config.CardMapper;
-import group.networkinventorytask.company.inventory.config.RouterMapper;
-import group.networkinventorytask.company.inventory.config.ShelfMapper;
-import group.networkinventorytask.company.inventory.config.SlotMapper;
+import group.networkinventorytask.company.inventory.Exception.Grouped.RouterException;
+import group.networkinventorytask.company.inventory.Exception.Grouped.RouterNotFound;
+import group.networkinventorytask.company.inventory.Exception.Grouped.SiteNotFound;
+import group.networkinventorytask.company.inventory.mapper.CardMapper;
+import group.networkinventorytask.company.inventory.mapper.RouterMapper;
+import group.networkinventorytask.company.inventory.mapper.ShelfMapper;
 import group.networkinventorytask.company.inventory.dto.request.RouterCreateRequest;
 import group.networkinventorytask.company.inventory.dto.Update.RouterUpdateRequest;
 import group.networkinventorytask.company.inventory.dto.response.*;
-import group.networkinventorytask.company.inventory.entity.Card;
 import group.networkinventorytask.company.inventory.entity.NetworkSite;
 import group.networkinventorytask.company.inventory.entity.Router;
 import group.networkinventorytask.company.inventory.repository.NetworkSiteRepository;
@@ -29,7 +30,6 @@ public class RouterService {
     private final SlotRepository slotRepository;
     private final RouterMapper routerMapper;
     private final ShelfMapper shelfMapper;
-    private final SlotMapper slotMapper;
     private final CardMapper cardMapper;
 
 
@@ -40,7 +40,6 @@ public class RouterService {
             SlotRepository slotRepository,
             RouterMapper routerMapper,
             ShelfMapper shelfMapper,
-            SlotMapper slotMapper,
             CardMapper cardMapper) {
 
         this.routerRepository = routerRepository;
@@ -49,7 +48,6 @@ public class RouterService {
         this.slotRepository = slotRepository;
         this.routerMapper = routerMapper;
         this.shelfMapper = shelfMapper;
-        this.slotMapper = slotMapper;
         this.cardMapper = cardMapper;
     }
 
@@ -59,26 +57,26 @@ public class RouterService {
         NetworkSite site = networkSiteRepository
                 .findById(request.getSiteId())
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new SiteNotFound(
                                 "Network site not found: "
                                         + request.getSiteId()));
 
         if (request.getId() != null &&
                 routerRepository.existsById(request.getId())) {
 
-            throw new RuntimeException(
+            throw new RouterException(
                     "Router ID already exists: " + request.getId());
         }
 
         if (routerRepository.existsByHostname(request.getHostname())) {
-            throw new RuntimeException(
+            throw new RouterException(
                     "Hostname already exists");
         }
 
         if (routerRepository.existsBySerialNumber(
                 request.getSerialNumber())) {
 
-            throw new RuntimeException(
+            throw new RouterException(
                     "Serial number already exists");
         }
         Router router = new Router();
@@ -132,7 +130,7 @@ public class RouterService {
 
         Router router = routerRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new RouterNotFound(
                                 "Router not found: " + id));
 
         return routerMapper.toResponse(router);
@@ -146,13 +144,13 @@ public class RouterService {
 
         Router router = routerRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new RouterNotFound(
                                 "Router not found: " + id));
 
         NetworkSite site = networkSiteRepository
                 .findById(request.getSiteId())
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new SiteNotFound(
                                 "Network site not found: "
                                         + request.getSiteId()));
 
@@ -179,7 +177,7 @@ public class RouterService {
 
         Router router = routerRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new RouterNotFound(
                                 "Router not found: " + id));
 
         if (request.getSiteId() != null) {
@@ -187,7 +185,7 @@ public class RouterService {
             NetworkSite site = networkSiteRepository
                     .findById(request.getSiteId())
                     .orElseThrow(() ->
-                            new RuntimeException(
+                            new SiteNotFound(
                                     "Network site not found: "
                                             + request.getSiteId()));
 
@@ -237,7 +235,7 @@ public class RouterService {
 
         Router router = routerRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new RouterNotFound(
                                 "Router not found: " + id));
 
         routerRepository.delete(router);
@@ -248,7 +246,7 @@ public class RouterService {
     public List<RouterResponse> getRoutersBySiteId(Long siteId) {
 
         if (!networkSiteRepository.existsById(siteId)) {
-            throw new RuntimeException(
+            throw new SiteNotFound(
                     "Network site not found: " + siteId);
         }
 
@@ -260,11 +258,12 @@ public class RouterService {
                 .toList();
     }
 
+    // Get Router tree hierarchy
     public RouterResponse getRouterTree(Long routerId) {
 
         Router router = routerRepository.findById(routerId)
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new RouterNotFound(
                                 "Router not found: " + routerId));
 
         // Convert Router entity to RouterResponse
@@ -272,14 +271,14 @@ public class RouterService {
                 routerMapper.toResponse(router);
 
         // Find all shelves belonging to this router
-        List<ShelfResponse> shelfResponses =
+        List<ShelfTreeResponse> shelfResponses =
                 shelfRepository.findByRouterId(routerId)
                         .stream()
                         .map(shelf -> {
 
-                            // Convert Shelf entity to ShelfResponse
-                            ShelfResponse shelfResponse =
-                                    shelfMapper.toResponse(shelf);
+                            // Convert Shelf entity to ShelfTreeResponse
+                            ShelfTreeResponse shelfResponse =
+                                    shelfMapper.toTreeResponse(shelf);
 
                             // Find all slots belonging to this shelf
                             List<SlotTreeResponse> slotResponses =
@@ -293,14 +292,19 @@ public class RouterService {
                                                         new SlotTreeResponse();
 
                                                 slotTreeResponse.setId(slot.getId());
+
                                                 slotTreeResponse.setSlotNumber(
                                                         slot.getSlotNumber());
+
                                                 slotTreeResponse.setSlotType(
                                                         slot.getSlotType());
+
                                                 slotTreeResponse.setStatus(
                                                         slot.getStatus());
+
                                                 slotTreeResponse.setCreatedAt(
                                                         slot.getCreatedAt());
+
                                                 slotTreeResponse.setUpdatedAt(
                                                         slot.getUpdatedAt());
 
@@ -322,7 +326,7 @@ public class RouterService {
                                             })
                                             .toList();
 
-                            // Add slots to the shelf response
+                            // Add slots to the shelf tree response
                             shelfResponse.setSlots(slotResponses);
 
                             return shelfResponse;

@@ -1,10 +1,8 @@
-package group.networkinventorytask.company.inventory.config;
+package group.networkinventorytask.company.inventory.mapper;
 
 import group.networkinventorytask.company.inventory.dto.response.SlotResponse;
 import group.networkinventorytask.company.inventory.entity.Slot;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class SlotMapper {

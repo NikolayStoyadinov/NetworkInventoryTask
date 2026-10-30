@@ -9,6 +9,7 @@ import group.networkinventorytask.company.inventory.service.NetworkSiteService;
 import group.networkinventorytask.company.inventory.service.RouterService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class NetworkSiteController {
 
     //Post
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public SiteResponse create(
             @RequestBody SiteCreateRequest request) {
 
@@ -72,6 +74,7 @@ public class NetworkSiteController {
     }
 
     //Delete
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(
             @PathVariable Long id,
