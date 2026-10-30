@@ -1,4 +1,4 @@
-package group.networkinventorytask.company.inventory.config;
+package group.networkinventorytask.company.inventory.mapper;
 
 import group.networkinventorytask.company.inventory.dto.response.RouterResponse;
 import group.networkinventorytask.company.inventory.entity.Router;

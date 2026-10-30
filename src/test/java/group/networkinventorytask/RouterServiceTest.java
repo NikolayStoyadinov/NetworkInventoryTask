@@ -1,8 +1,8 @@
 package group.networkinventorytask;
 
-import group.networkinventorytask.company.inventory.config.CardMapper;
-import group.networkinventorytask.company.inventory.config.RouterMapper;
-import group.networkinventorytask.company.inventory.config.ShelfMapper;
+import group.networkinventorytask.company.inventory.mapper.CardMapper;
+import group.networkinventorytask.company.inventory.mapper.RouterMapper;
+import group.networkinventorytask.company.inventory.mapper.ShelfMapper;
 import group.networkinventorytask.company.inventory.dto.Update.RouterUpdateRequest;
 import group.networkinventorytask.company.inventory.dto.request.RouterCreateRequest;
 import group.networkinventorytask.company.inventory.dto.response.CardResponse;

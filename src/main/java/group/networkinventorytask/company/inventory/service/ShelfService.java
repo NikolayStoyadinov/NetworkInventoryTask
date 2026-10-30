@@ -1,7 +1,9 @@
 package group.networkinventorytask.company.inventory.service;
 
-import group.networkinventorytask.company.inventory.Exception.ShelfNotFound;
-import group.networkinventorytask.company.inventory.config.ShelfMapper;
+import group.networkinventorytask.company.inventory.Exception.Grouped.RouterNotFound;
+import group.networkinventorytask.company.inventory.Exception.Grouped.ShelfException;
+import group.networkinventorytask.company.inventory.Exception.Grouped.ShelfNotFound;
+import group.networkinventorytask.company.inventory.mapper.ShelfMapper;
 import group.networkinventorytask.company.inventory.dto.Update.ShelfUpdateRequest;
 import group.networkinventorytask.company.inventory.dto.request.ShelfCreateRequest;
 import group.networkinventorytask.company.inventory.dto.response.ShelfResponse;
@@ -34,17 +36,17 @@ private final ShelfMapper shelfMapper;
         Router router = routerRepository
                 .findById(request.getRouterId())
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new RouterNotFound(
                                 "Router not found"
                                 + request.getRouterId()));
 
         if (shelfRepository.existsById(request.getId())){
-            throw new RuntimeException(
+            throw new ShelfException(
                     "Shelf ID already exists " + request.getId());
         }
         
         if(shelfRepository.existsByShelfNumber(request.getShelfNumber())){
-            throw new RuntimeException(
+            throw new ShelfException(
                     "Shelf number already exists");
         }
 
@@ -108,13 +110,13 @@ private final ShelfMapper shelfMapper;
 
         Shelf shelf = shelfRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new ShelfNotFound(
                                 "Shelf not found: " + id));
 
         Router router = routerRepository
                 .findById(request.getRouterId())
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new RouterNotFound(
                                 "Router not found: "
                                         + request.getRouterId()));
 
@@ -137,14 +139,14 @@ private final ShelfMapper shelfMapper;
 
         Shelf shelf = shelfRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new ShelfNotFound(
                                 "Shelf not found: " + id));
 
         if (request.getRouterId() != null) {
             Router router = routerRepository
                     .findById(request.getRouterId())
                     .orElseThrow(() ->
-                            new RuntimeException(
+                            new RouterNotFound(
                                     "Router not found: "
                                             + request.getRouterId()));
             shelf.setRouter(router);
@@ -178,7 +180,7 @@ private final ShelfMapper shelfMapper;
 
         Shelf shelf = shelfRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new ShelfNotFound(
                                 "Shelf not found: " + id));
 
         shelfRepository.delete(shelf);
@@ -188,7 +190,7 @@ private final ShelfMapper shelfMapper;
     public List<ShelfResponse> getShelvesByRouterId(Long routerId) {
 
         if (!routerRepository.existsById(routerId)) {
-            throw new RuntimeException(
+            throw new RouterNotFound(
                     "Router not found: " + routerId);
         }
 

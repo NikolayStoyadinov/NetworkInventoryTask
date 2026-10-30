@@ -1,10 +1,10 @@
 package group.networkinventorytask;
 
-import group.networkinventorytask.company.inventory.Exception.SiteHasChildrenException;
+import group.networkinventorytask.company.inventory.Exception.Grouped.SiteHasChildrenException;
 import group.networkinventorytask.company.inventory.dto.Update.SiteUpdateRequest;
 import group.networkinventorytask.company.inventory.dto.request.SiteCreateRequest;
 import group.networkinventorytask.company.inventory.entity.NetworkSite;
-import group.networkinventorytask.company.inventory.config.SiteMapper;
+import group.networkinventorytask.company.inventory.mapper.SiteMapper;
 import group.networkinventorytask.company.inventory.entity.Router;
 import group.networkinventorytask.company.inventory.repository.NetworkSiteRepository;
 import group.networkinventorytask.company.inventory.dto.response.SiteResponse;

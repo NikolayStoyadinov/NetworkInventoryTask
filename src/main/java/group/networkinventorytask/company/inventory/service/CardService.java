@@ -1,7 +1,9 @@
 package group.networkinventorytask.company.inventory.service;
 
-import group.networkinventorytask.company.inventory.Exception.CardNotFound;
-import group.networkinventorytask.company.inventory.config.CardMapper;
+import group.networkinventorytask.company.inventory.Exception.Grouped.CardException;
+import group.networkinventorytask.company.inventory.Exception.Grouped.CardNotFound;
+import group.networkinventorytask.company.inventory.Exception.Grouped.SlotNotFound;
+import group.networkinventorytask.company.inventory.mapper.CardMapper;
 import group.networkinventorytask.company.inventory.dto.Update.CardUpdateRequest;
 import group.networkinventorytask.company.inventory.dto.request.CardCreateRequest;
 import group.networkinventorytask.company.inventory.dto.response.CardResponse;
@@ -34,17 +36,17 @@ public class CardService {
         Slot slot = slotRepository
                 .findById(request.getSlotId())
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new CardException(
                                 "Slot not found"
                                         + request.getSlotId()));
 
         if (cardRepository.existsById(request.getId())){
-            throw new RuntimeException(
+            throw new CardException(
                     "Card ID already exists " + request.getId());
         }
 
         if(cardRepository.existsBySerialNumber(request.getSerialNumber())){
-            throw new RuntimeException(
+            throw new CardException(
                     "Serial number already exists");
         }
 
@@ -97,7 +99,7 @@ public class CardService {
 
         Card card = cardRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new CardNotFound(
                                 "Card not found: " + id));
 
         return cardMapper.toResponse(card);
@@ -116,7 +118,7 @@ public class CardService {
         Slot slot = slotRepository
                 .findById(request.getSlotId())
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new SlotNotFound(
                                 "Slot not found: "
                                         + request.getSlotId()));
 
@@ -142,14 +144,14 @@ public class CardService {
 
         Card card = cardRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new CardNotFound(
                                 "Card not found: " + id));
 
         if (request.getSlotId() != null) {
             Slot slot = slotRepository
                     .findById(request.getSlotId())
                     .orElseThrow(() ->
-                            new RuntimeException(
+                            new SlotNotFound(
                                     "Slot not found: "
                                             + request.getSlotId()));
             card.setSlot(slot);
@@ -191,7 +193,7 @@ public class CardService {
 
         Card card = cardRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new CardNotFound(
                                 "Card not found: " + id));
 
         cardRepository.delete(card);
@@ -201,7 +203,7 @@ public class CardService {
     public List<CardResponse> getCardBySlotId(Long slotId) {
 
         if (!slotRepository.existsById(slotId)) {
-            throw new RuntimeException(
+            throw new SlotNotFound(
                     "Slot not found: " + slotId);
         }
 

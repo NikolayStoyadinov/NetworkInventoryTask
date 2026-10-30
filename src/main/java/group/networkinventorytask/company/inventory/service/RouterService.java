@@ -1,8 +1,11 @@
 package group.networkinventorytask.company.inventory.service;
 
-import group.networkinventorytask.company.inventory.config.CardMapper;
-import group.networkinventorytask.company.inventory.config.RouterMapper;
-import group.networkinventorytask.company.inventory.config.ShelfMapper;
+import group.networkinventorytask.company.inventory.Exception.Grouped.RouterException;
+import group.networkinventorytask.company.inventory.Exception.Grouped.RouterNotFound;
+import group.networkinventorytask.company.inventory.Exception.Grouped.SiteNotFound;
+import group.networkinventorytask.company.inventory.mapper.CardMapper;
+import group.networkinventorytask.company.inventory.mapper.RouterMapper;
+import group.networkinventorytask.company.inventory.mapper.ShelfMapper;
 import group.networkinventorytask.company.inventory.dto.request.RouterCreateRequest;
 import group.networkinventorytask.company.inventory.dto.Update.RouterUpdateRequest;
 import group.networkinventorytask.company.inventory.dto.response.*;
@@ -54,26 +57,26 @@ public class RouterService {
         NetworkSite site = networkSiteRepository
                 .findById(request.getSiteId())
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new SiteNotFound(
                                 "Network site not found: "
                                         + request.getSiteId()));
 
         if (request.getId() != null &&
                 routerRepository.existsById(request.getId())) {
 
-            throw new RuntimeException(
+            throw new RouterException(
                     "Router ID already exists: " + request.getId());
         }
 
         if (routerRepository.existsByHostname(request.getHostname())) {
-            throw new RuntimeException(
+            throw new RouterException(
                     "Hostname already exists");
         }
 
         if (routerRepository.existsBySerialNumber(
                 request.getSerialNumber())) {
 
-            throw new RuntimeException(
+            throw new RouterException(
                     "Serial number already exists");
         }
         Router router = new Router();
@@ -127,7 +130,7 @@ public class RouterService {
 
         Router router = routerRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new RouterNotFound(
                                 "Router not found: " + id));
 
         return routerMapper.toResponse(router);
@@ -141,13 +144,13 @@ public class RouterService {
 
         Router router = routerRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new RouterNotFound(
                                 "Router not found: " + id));
 
         NetworkSite site = networkSiteRepository
                 .findById(request.getSiteId())
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new SiteNotFound(
                                 "Network site not found: "
                                         + request.getSiteId()));
 
@@ -174,7 +177,7 @@ public class RouterService {
 
         Router router = routerRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new RouterNotFound(
                                 "Router not found: " + id));
 
         if (request.getSiteId() != null) {
@@ -182,7 +185,7 @@ public class RouterService {
             NetworkSite site = networkSiteRepository
                     .findById(request.getSiteId())
                     .orElseThrow(() ->
-                            new RuntimeException(
+                            new SiteNotFound(
                                     "Network site not found: "
                                             + request.getSiteId()));
 
@@ -232,7 +235,7 @@ public class RouterService {
 
         Router router = routerRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new RouterNotFound(
                                 "Router not found: " + id));
 
         routerRepository.delete(router);
@@ -243,7 +246,7 @@ public class RouterService {
     public List<RouterResponse> getRoutersBySiteId(Long siteId) {
 
         if (!networkSiteRepository.existsById(siteId)) {
-            throw new RuntimeException(
+            throw new SiteNotFound(
                     "Network site not found: " + siteId);
         }
 
@@ -260,7 +263,7 @@ public class RouterService {
 
         Router router = routerRepository.findById(routerId)
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new RouterNotFound(
                                 "Router not found: " + routerId));
 
         // Convert Router entity to RouterResponse

@@ -1,4 +1,4 @@
-package group.networkinventorytask.company.inventory.Exception;
+package group.networkinventorytask.company.inventory.Exception.Grouped;
 
 public class CardNotFound extends RuntimeException {
     public CardNotFound(String message) {

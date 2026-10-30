@@ -1,7 +1,7 @@
 package group.networkinventorytask;
 
 
-import group.networkinventorytask.company.inventory.config.SlotMapper;
+import group.networkinventorytask.company.inventory.mapper.SlotMapper;
 import group.networkinventorytask.company.inventory.dto.Update.SlotUpdateRequest;
 import group.networkinventorytask.company.inventory.dto.request.SlotCreateRequest;
 import group.networkinventorytask.company.inventory.dto.response.SlotResponse;

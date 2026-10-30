@@ -1,9 +1,7 @@
 package group.networkinventorytask.company.inventory.service;
 
-import group.networkinventorytask.company.inventory.Exception.CardInstalledElsewhere;
-import group.networkinventorytask.company.inventory.Exception.CardNotInSlot;
-import group.networkinventorytask.company.inventory.Exception.SlotOccupiedException;
-import group.networkinventorytask.company.inventory.config.SlotMapper;
+import group.networkinventorytask.company.inventory.Exception.Grouped.*;
+import group.networkinventorytask.company.inventory.mapper.SlotMapper;
 import group.networkinventorytask.company.inventory.dto.Update.SlotUpdateRequest;
 import group.networkinventorytask.company.inventory.dto.request.SlotCreateRequest;
 import group.networkinventorytask.company.inventory.dto.response.SlotResponse;
@@ -43,17 +41,17 @@ public class SlotService {
         Shelf shelf = shelfRepository
                 .findById(request.getShelfId())
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new SlotOccupiedException(
                                 "Shelf not found "
                                         + request.getShelfId()));
 
         if (slotRepository.existsById(request.getId())){
-            throw new RuntimeException(
+            throw new SlotOccupiedException(
                     "Slot ID already exists " + request.getId());
         }
 
         if(slotRepository.existsBySlotNumber(request.getSlotNumber())){
-            throw new RuntimeException(
+            throw new SlotOccupiedException(
                     "Slot number already exists: " + request.getSlotNumber());
         }
 
@@ -103,7 +101,7 @@ public class SlotService {
 
         Slot slot = slotRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new SlotNotFound(
                                 "Slot not found: " + id));
 
         return slotMapper.toResponse(slot);
@@ -116,13 +114,13 @@ public class SlotService {
 
         Slot slot = slotRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new SlotNotFound(
                                 "Slot not found: " + id));
 
         Shelf shelf = shelfRepository
                 .findById(request.getShelfId())
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new ShelfNotFound(
                                 "Shelf not found: "
                                         + request.getShelfId()));
 
@@ -144,14 +142,14 @@ public class SlotService {
 
         Slot slot = slotRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new SlotNotFound(
                                 "Slot not found: " + id));
 
         if (request.getShelfId() != null) {
             Shelf shelf = shelfRepository
                     .findById(request.getShelfId())
                     .orElseThrow(() ->
-                            new RuntimeException(
+                            new ShelfNotFound(
                                     "Shelf not found: "
                                             + request.getShelfId()));
             slot.setShelf(shelf);
@@ -181,7 +179,7 @@ public class SlotService {
 
         Slot slot = slotRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new SlotNotFound(
                                 "Slot not found: " + id));
 
         slotRepository.delete(slot);
@@ -191,7 +189,7 @@ public class SlotService {
     public List<SlotResponse> getSlotsByShelfId(Long shelfId) {
 
         if (!shelfRepository.existsById(shelfId)) {
-            throw new RuntimeException(
+            throw new ShelfNotFound(
                     "Shelf not found: " + shelfId);
         }
 
@@ -208,11 +206,11 @@ public class SlotService {
     public SlotResponse installCard(Long slotId, Long cardId) {
 
         Slot slot = slotRepository.findById(slotId)
-                .orElseThrow(() -> new RuntimeException(
+                .orElseThrow(() -> new SlotNotFound(
                         "Slot ID not found: " + slotId));
 
         Card card = cardRepository.findById(cardId)
-                .orElseThrow(() -> new RuntimeException(
+                .orElseThrow(() -> new CardNotFound(
                         "Card ID not found: " + cardId));
 
         if (card.getSlot() != null) {
@@ -242,11 +240,11 @@ public class SlotService {
     public SlotResponse removeCard(Long slotId, Long cardId) {
 
         Slot slot = slotRepository.findById(slotId)
-                .orElseThrow(() -> new RuntimeException(
+                .orElseThrow(() -> new SlotNotFound(
                         "Slot ID not found: " + slotId));
 
         Card card = cardRepository.findById(cardId)
-                .orElseThrow(() -> new RuntimeException(
+                .orElseThrow(() -> new CardNotFound(
                         "Card ID not found: " + cardId));
 
         if (card.getSlot() == null
