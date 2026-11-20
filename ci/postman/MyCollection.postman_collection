@@ -1,0 +1,2747 @@
+{
+  "info": {
+    "_postman_id": "00b9affb-a1ce-478b-b9ab-02430126f1ca",
+    "name": "My Collection",
+    "description": "### Welcome to Postman! This is your first collection.\n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests  \n• Test your API in real-world scenarios  \n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "57727516",
+    "_collection_link": "https://go.postman.co/collection/57727516-00b9affb-a1ce-478b-b9ab-02430126f1ca?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Sites",
+      "item": [
+        {
+          "name": "Create",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 201 Created\", function () {\n    pm.response.to.have.status(201);\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"address\": \"Kukush_A1\",\r\n    \"city\": \"Sofia\",\r\n    \"countryCode\": \"1\",\r\n    \"createdAt\": \"2026-09-17T16:06:03.7740545\",\r\n    \"id\": 5,\r\n    \"latitude\": 30.000000,\r\n    \"longitude\": 40.000000,\r\n    \"name\": \"FifthSite\",\r\n    \"siteCode\": \"431\",\r\n    \"status\": \"Online\",\r\n    \"updatedAt\": null\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/sites",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "sites"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetAll",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}api/v1/sites",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "sites"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/sites/1",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "sites",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Negative Create",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Duplicate site code returns 409\", function () {\r\n    pm.response.to.have.status(409);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"address\": \"Kukush_A1\",\r\n    \"city\": \"Sofia\",\r\n    \"countryCode\": \"1\",\r\n    \"createdAt\": \"2026-09-17T16:06:03.7740545\",\r\n    \"id\": 5,\r\n    \"latitude\": 30.000000,\r\n    \"longitude\": 40.000000,\r\n    \"name\": \"FifthSite\",\r\n    \"siteCode\": \"102\",\r\n    \"status\": \"Online\",\r\n    \"updatedAt\": null\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/sites",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "sites"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Put",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"address\": \"Kukush\",\r\n    \"city\": \"Sofia\",\r\n    \"countryCode\": \"3\",\r\n    \"createdAt\": \"2026-09-09T13:42:03.7740545\",\r\n    \"id\": 1,\r\n    \"latitude\": 30.000000,\r\n    \"longitude\": 40.000000,\r\n    \"name\": \"a1\",\r\n    \"siteCode\": \"10000\",\r\n    \"status\": \"Online/Working\",\r\n    \"updatedAt\": \"2026-09-09T13:43:31.2924363\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/sites/1",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "sites",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Patch",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"city\": \"Sofia\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/sites/1",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "sites",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Negative",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 409\", function () {\r\n    pm.response.to.have.status(409);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/sites/1",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "sites",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get routers at a site",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/sites/1/routers",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "sites",
+                "1",
+                "routers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 204\", function () {\r\n    pm.response.to.have.status(204);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/sites/5",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "sites",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Routers",
+      "item": [
+        {
+          "name": "CreateRouter",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"siteId\": 2,\r\n    \"createdAt\": \"2026-09-18T9:25\",\r\n    \"hostname\": \"Plot\",\r\n    \"id\": 4,\r\n    \"managementIp\": \"192.175.1.103\",\r\n    \"model\": \"B5847\",\r\n    \"serialNumber\": \"29\",\r\n    \"shelves\": 1,\r\n    \"softwareVersion\": \"12.4.5\",\r\n    \"status\": \"ONLINE\",\r\n    \"vendor\": \"A1\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/routers",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "routers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetallRouters",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/routers",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "routers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetIdRouter",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/routers/1",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "routers",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetShelvesOfaRouter",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/routers/1/shelves",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "routers",
+                "1",
+                "shelves"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "RouterTreeHierarchy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});\n\n"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/routers/1/tree",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "routers",
+                "1",
+                "tree"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetShelvesOfEmptyRouter(Negative)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {\r\n    pm.response.to.have.status(404);\r\n});\r\n\r\npm.test(\"Response body is empty\", function () {\r\n    pm.expect(pm.response.text()).to.eql(\"\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/routers/4/shelves",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "routers",
+                "4",
+                "shelves"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PutRouter",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"siteId\": 2,\r\n    \"createdAt\": \"2026-09-18T9:25\",\r\n    \"hostname\": \"Plot\",\r\n    \"id\": 4,\r\n    \"managementIp\": \"192.175.1.103\",\r\n    \"model\": \"B5847-2\",\r\n    \"serialNumber\": \"29\",\r\n    \"shelves\": 1,\r\n    \"softwareVersion\": \"12.5\",\r\n    \"status\": \"ONLINE-UPDATED\",\r\n    \"vendor\": \"A1\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/routers/4",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "routers",
+                "4"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PatchRouter",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status\": \"ONLINE-UPDATEDx2\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/routers/4",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "routers",
+                "4"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DeleteRouter",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 204\", function () {\r\n    pm.response.to.have.status(204);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/routers/4",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "routers",
+                "4"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Shelves",
+      "item": [
+        {
+          "name": "CreateShelf",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"createdAt\": \"2026-08-26T16:00:00\",\r\n    \"id\": 7,\r\n    \"routerId\": 3,\r\n    \"serialNumber\": \"19\",\r\n    \"shelfNumber\": \"319\",\r\n    \"slots\": 1,\r\n    \"status\": \"Fine\",\r\n    \"totalSlots\": \"4\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/shelves",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "shelves"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetAllShelves",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/shelves",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "shelves"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetByIdShelf",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/shelves/1",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "shelves",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetSlotsOfaShelf",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/shelves/1/slots",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "shelves",
+                "1",
+                "slots"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PutShelf",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"createdAt\": \"2026-09-18T10:21:15.8530728\",\r\n    \"id\": 7,\r\n    \"routerId\": 3,\r\n    \"serialNumber\": \"19\",\r\n    \"shelfNumber\": \"319\",\r\n    \"status\": \"Fine\",\r\n    \"totalSlots\": \"4\",\r\n    \"updatedAt\": \"2026-09-18T10:21:15.8530728\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/shelves/7",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "shelves",
+                "7"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PatchShelf",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"shelfNumber\": \"123\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/shelves/7",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "shelves",
+                "7"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DeleteShelf",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 204\", function () {\r\n    pm.response.to.have.status(204);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/shelves/7",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "shelves",
+                "7"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetById(Negative)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 404 Not Found\", function () {\r\n    pm.response.to.have.status(404);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/shelves/9999",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "shelves",
+                "9999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetAll(Negative)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200 OK\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"No shelves were found\", function () {\r\n    const response = pm.response.json();\r\n\r\n    pm.expect(response.content).to.be.an(\"array\").that.is.empty;\r\n    pm.expect(response.totalElements).to.eql(0);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/shelves?status=DOES_NOT_EXIST",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "shelves"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "DOES_NOT_EXIST"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Slots",
+      "item": [
+        {
+          "name": "PostSlots",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"createdAt\": \"2026-08-26T08:00:00\",\r\n    \"id\": 25,\r\n    \"shelfId\": 1,\r\n    \"slotNumber\": \"123335\",\r\n    \"slotType\": \"10\",\r\n    \"status\": \"Empty\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/slots",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "slots"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetAllSlots",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/slots",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "slots"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetByIdSlots",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/slots/2",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "slots",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetCardOfaSlot",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/slots/1/card",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "slots",
+                "1",
+                "card"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PutSlots",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"createdAt\": \"2026-09-17T12:00:54.7122861\",\r\n    \"id\": 2,\r\n    \"shelfId\": 1,\r\n    \"slotNumber\": \"12\",\r\n    \"slotType\": \"14\",\r\n    \"status\": \"Empty\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/slots/2",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "slots",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PatchSlots",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"slotType\": \"12\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/slots/2",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "slots",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "InsertCardIntoSlot",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/slots/2/card?cardId=2",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "slots",
+                "2",
+                "card"
+              ],
+              "query": [
+                {
+                  "key": "cardId",
+                  "value": "2"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "InsertCardIntoOccupiedSlot(Negative)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 409 Conflict\", function () {\r\n    pm.response.to.have.status(409);\r\n});\r\n"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/slots/1/card?cardId=2",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "slots",
+                "1",
+                "card"
+              ],
+              "query": [
+                {
+                  "key": "cardId",
+                  "value": "2"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "RemoveCardFromSlot",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 204\", function () {\r\n    pm.response.to.have.status(204);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/slots/2/card?cardId=2",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "slots",
+                "2",
+                "card"
+              ],
+              "query": [
+                {
+                  "key": "cardId",
+                  "value": "2"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "RemoveCardFromWrongSlot(Negative)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 409\", function () {\r\n    pm.response.to.have.status(409);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/slots/2/card?cardId=2",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "slots",
+                "2",
+                "card"
+              ],
+              "query": [
+                {
+                  "key": "cardId",
+                  "value": "2"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DeleteSlots",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 204\", function () {\r\n    pm.response.to.have.status(204);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/slots/25",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "slots",
+                "25"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Cards",
+      "item": [
+        {
+          "name": "PostCard",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"cardType\": \"1\",\r\n    \"createdAt\": \"2026-08-26T10:00:00\",\r\n    \"hardwareRevision\": \"Yes\",\r\n    \"id\": 20,\r\n    \"partNumber\": \"12334\",\r\n    \"portCount\": \"2\",\r\n    \"serialNumber\": \"3321\",\r\n    \"slotId\": 26,\r\n    \"status\": \"INSTALLED\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/card",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "card"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetAllCards",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/card",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "card"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetByIdCard",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/card/20",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "card",
+                "20"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PatchCard",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"cardType\": \"1->2\",\r\n    \"createdAt\": \"2026-09-18T12:24:47.3072736\",\r\n    \"hardwareRevision\": \"NEEDED\",\r\n    \"id\": 20,\r\n    \"partNumber\": \"12334\",\r\n    \"portCount\": \"2\",\r\n    \"serialNumber\": \"3321\",\r\n    \"slotId\": 26,\r\n    \"status\": \"INSTALLED\",\r\n    \"updatedAt\": \"2026-09-18T12:24:47.3072736\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/card/20",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "card",
+                "20"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PatchCard",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"serialNumber\":\"909090\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/card/20",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "card",
+                "20"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DeleteCard",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 204\", function () {\r\n    pm.response.to.have.status(204);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/card/20",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "card",
+                "20"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PutCard(Negative)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 404 Not Found\", function () {\r\n    pm.response.to.have.status(404);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/card/9999",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "card",
+                "9999"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "UserRequest",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "testuser2",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "TestPassword1234!",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/routers",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "routers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "NegativeTestUser",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "testuser2",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "TestPassword1234!",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"siteId\": 2,\r\n    \"createdAt\": \"2026-09-18T9:25\",\r\n    \"hostname\": \"Plot\",\r\n    \"id\": 4,\r\n    \"managementIp\": \"192.175.1.103\",\r\n    \"model\": \"B5847\",\r\n    \"serialNumber\": \"29\",\r\n    \"shelves\": 1,\r\n    \"softwareVersion\": \"12.4.5\",\r\n    \"status\": \"ONLINE\",\r\n    \"vendor\": \"A1\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/routers",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "routers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "NegativeTestUser2",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "testuser2",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "TestPassword1234!",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/routers/1",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "routers",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "AdminTestAuth",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"siteId\": 2,\r\n    \"createdAt\": \"2026-09-18T9:25\",\r\n    \"hostname\": \"Plot\",\r\n    \"id\": 4,\r\n    \"managementIp\": \"192.175.1.103\",\r\n    \"model\": \"B5847\",\r\n    \"serialNumber\": \"29\",\r\n    \"shelves\": 1,\r\n    \"softwareVersion\": \"12.4.5\",\r\n    \"status\": \"ONLINE\",\r\n    \"vendor\": \"A1\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/routers",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "routers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "AdminTestAuth",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://{{baseUrl}}/api/v1/routers/4",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "routers",
+                "4"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "AdminCreateUser",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"testuser3\",\r\n    \"password\": \"1234\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/users",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UserNegativeTest",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "testuser2",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "TestPassword1234!",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"fake\",\r\n    \"password\": \"12\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/users",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UserNegativeTestDelUser",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "testuser2",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "TestPassword1234!",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/users/testuser3",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "users",
+                "testuser3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "AdminDeleteUser",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "apiadmin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "YourStrongPassword123!",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/users/testuser3",
+              "protocol": "http",
+              "host": [
+                "nis"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "users",
+                "testuser3"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
