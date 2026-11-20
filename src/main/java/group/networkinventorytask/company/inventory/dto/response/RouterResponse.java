@@ -16,13 +16,13 @@ public class RouterResponse {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    private List<ShelfResponse> shelves;
+    private List<ShelfTreeResponse> shelves;
 
-    public List<ShelfResponse> getShelves() {
+    public List<ShelfTreeResponse> getShelves() {
         return shelves;
     }
 
-    public void setShelves(List<ShelfResponse> shelves) {
+    public void setShelves(List<ShelfTreeResponse> shelves) {
         this.shelves = shelves;
     }
 

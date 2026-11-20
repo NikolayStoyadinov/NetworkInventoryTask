@@ -1,0 +1,12 @@
+services:
+  nis:
+    build: ../.
+    ports:
+      - "8080:8080"
+
+  postman:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - nis

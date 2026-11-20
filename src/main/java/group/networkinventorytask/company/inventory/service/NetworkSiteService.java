@@ -1,6 +1,9 @@
 package group.networkinventorytask.company.inventory.service;
 
-import group.networkinventorytask.company.inventory.config.SiteMapper;
+import group.networkinventorytask.company.inventory.Exception.Grouped.SiteException;
+import group.networkinventorytask.company.inventory.Exception.Grouped.SiteHasChildrenException;
+import group.networkinventorytask.company.inventory.Exception.Grouped.SiteNotFound;
+import group.networkinventorytask.company.inventory.mapper.SiteMapper;
 import group.networkinventorytask.company.inventory.dto.request.SiteCreateRequest;
 import group.networkinventorytask.company.inventory.dto.Update.SiteUpdateRequest;
 import group.networkinventorytask.company.inventory.dto.response.SiteResponse;
@@ -26,8 +29,12 @@ public class NetworkSiteService {
     // Create
     public SiteResponse create(SiteCreateRequest request) {
 
-        if (networkSiteRepository.existsBySiteCode(request.getSiteCode())) {
-            throw new RuntimeException("Site code exists already!");
+        if (networkSiteRepository.existsBySiteCode(
+                request.getSiteCode())) {
+
+            throw new SiteException(
+                    "Site code already exists: "
+                            + request.getSiteCode());
         }
 
         NetworkSite site = new NetworkSite();
@@ -51,6 +58,7 @@ public class NetworkSiteService {
 
         return siteMapper.toResponse(savedSite);
     }
+
     // Get all
     public Page<SiteResponse> getAll(String status,
                                      String city,
@@ -97,7 +105,7 @@ public class NetworkSiteService {
 
         NetworkSite site = networkSiteRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new SiteNotFound(
                                 "Network site not found: " + id));
 
         return siteMapper.toResponse(site);
@@ -108,7 +116,7 @@ public class NetworkSiteService {
 
         NetworkSite site = networkSiteRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new SiteNotFound(
                                 "Network site not found: " + id));
 
         site.setSiteCode(request.getSiteCode());
@@ -132,7 +140,7 @@ public class NetworkSiteService {
 
         NetworkSite site = networkSiteRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new SiteNotFound(
                                 "Network site not found: " + id));
 
         if (request.getSiteCode() != null) {site.setSiteCode(request.getSiteCode());}
@@ -164,8 +172,13 @@ public class NetworkSiteService {
 
         NetworkSite site = networkSiteRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new SiteNotFound(
                                 "Network site not found: " + id));
+
+        if (!cascade && !site.getRouters().isEmpty()) {
+            throw new SiteHasChildrenException(
+                    "Cannot delete site because it has routers");
+        }
 
         if (cascade) {
             site.getRouters().clear();

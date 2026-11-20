@@ -1,4 +1,4 @@
-package group.networkinventorytask.company.inventory.config;
+package group.networkinventorytask.company.inventory.mapper;
 
 import group.networkinventorytask.company.inventory.dto.response.CardResponse;
 import group.networkinventorytask.company.inventory.entity.Card;
