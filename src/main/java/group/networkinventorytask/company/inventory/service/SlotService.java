@@ -200,7 +200,7 @@ public class SlotService {
                 .map(slotMapper::toResponse)
                 .toList();
     }
-
+//dadada
     //Insert card into slot
     @Transactional
     public SlotResponse installCard(Long slotId, Long cardId) {
